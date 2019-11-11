@@ -1,7 +1,9 @@
 defmodule KVstore.Storage do
-    
-    def create(obj, ttl) do
+    def initdb do
         :dets.open_file(:disc_storage, [type: :set])
+    end
+
+    def create(obj, ttl) do
         :dets.insert_new(:disc_storage, obj)
         :timer.apply_after(String.to_integer(ttl)*1000, :dets, :delete, :disc_storage)
     end
